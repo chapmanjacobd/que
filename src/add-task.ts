@@ -1,4 +1,5 @@
 import shelf from "node-persist";
+import { config } from "./config";
 import { Task } from "./types";
 
 const defaultTaskObject = (taskCmd: string): Task => {
@@ -9,7 +10,7 @@ const defaultTaskObject = (taskCmd: string): Task => {
 const atomic = process.env.ADD_TASK_STYLE === "ATOMIC";
 
 export async function addTask(newTaskCmd?: Task): Promise<Task[]> {
-  await shelf.init({ dir: "task-status" });
+  await shelf.init({ dir: config.queueName });
 
   const cart: Task[] = (await shelf.getItem("taskList")) ?? [];
 

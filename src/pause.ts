@@ -1,24 +1,25 @@
 import shelf from "node-persist";
+import { config } from "./config";
 import { Queue } from "./types";
 
 export async function togglePause() {
-  await shelf.init({ dir: "task-status" });
+  await shelf.init({ dir: config.queueName });
 
-  const cart: Queue = (await shelf.getItem("default-queue")) ?? [];
+  const cart: Queue = (await shelf.getItem("queue-status")) ?? [];
 
   switch (cart.state) {
     case "RUNNING":
-      await shelf.setItem("default-queue", { state: "PAUSED" });
+      await shelf.setItem("queue-status", { state: "PAUSED" });
       console.log("Queue paused");
       break;
 
     case "PAUSED":
-      await shelf.setItem("default-queue", { state: "RESUMED" });
+      await shelf.setItem("queue-status", { state: "RESUMED" });
       console.log("Queue resumed");
       break;
 
     default:
-      console.log("Cannot pause queue. Queue empty");
+      console.error("Queue empty. Cannot pause.");
       break;
   }
 
