@@ -1,29 +1,21 @@
-import { schedule as cronSchedule } from "node-cron";
+import { addTask } from "./add-task";
 import { Task } from "./types";
-import { err, nextCron } from "./utils";
-
-// User Config:
-// 30 emailsPerMonth == 1 per day
-//  4 emailsPerMonth == 1 per week
+import { err } from "./utils";
 
 if (require.main === module)
   (async () => {
-    await initializeTasks()
-      .then(async (b) => await schedule(b, { minParagraphsPerEmail: 5, emailsPerMonth: 15 }))
+    await addTask()
+      .then(async (tasks) => await runTasks(tasks))
       .catch(err);
   })();
 
-interface ContentConfig {
-  minParagraphsPerEmail?: number;
-  emailsPerMonth?: number;
-}
+export async function runTasks(taskList: Task[]) {
+  await run();
 
-export async function schedule(taskList: Task[], opts: ContentConfig) {
-  await emailAndScheduleNext();
+  async function run() {
+    // run tasks until max concurrent is reached
+    // call yourself after running
 
-  async function emailAndScheduleNext() {
-    await mail(getText(taskList, opts.minParagraphsPerEmail));
-
-    cronSchedule(nextCron(opts.emailsPerMonth), async () => await emailAndScheduleNext());
+    await run();
   }
 }

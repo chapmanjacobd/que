@@ -6,3 +6,7 @@ export type Task = {
   taskCmd: string;
   status: TaskStatus;
 };
+
+export type Queue = {
+  state: QueueState;
+};

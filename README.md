@@ -2,7 +2,7 @@ Inspired by [taskspooler](http://freshmeat.net/projects/taskspooler/), and digda
 
 Made for executing independent tasks.
 
-Using node-persist instead of sqlite because I made this while on a plane and npm install doesn't work so don't update tasks concurrently.
+Using node-persist instead of sqlite because I made this while on a plane and npm install doesn't work so don't update tasks concurrently. Hmm yeah I think this isn't going to work well without sqlite :/
 
 ## Tool objectives
 
