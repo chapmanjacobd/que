@@ -1,5 +1,9 @@
 Inspired by [taskspooler](http://freshmeat.net/projects/taskspooler/), and digdag.
 
+Made for executing independent tasks.
+
+Using node-persist instead of sqlite because I made this while on a plane and npm install doesn't work so don't update tasks concurrently.
+
 ## Tool objectives
 
 - Control what to do with the input/output of thousands of processes
@@ -12,14 +16,14 @@ Inspired by [taskspooler](http://freshmeat.net/projects/taskspooler/), and digda
 
 ## Interface
 
-The default action `do` should append a job.
+The default action `do` should append a task.
 
-## Job execution
+## task execution
 
-We should fork a '\$SHELL' and run the job command, because a user may expect his
+We should fork a '\$SHELL' and run the task command, because a user may expect his
 shell parser.
 
-## Job states
+## task states
 
 - queued
 - running
@@ -28,7 +32,7 @@ shell parser.
 
 ## Input/output
 
-The user, when adding a job to the queue, should be able to choose:
+The user, when adding a task to the queue, should be able to choose:
 
 - Where the output goes. As flags:
   - store: put it into a file in /tmp (or similar).
@@ -42,11 +46,11 @@ The user, when adding a job to the queue, should be able to choose:
   If opened, the user should be able to connect its current stdin to the
   process'.
 
-## Job management
+## task management
 
 - Shutdown: stop all the background processes related to the queues.
 - tail (id): 'tail' the last lines of a process' output.
 - list: list the queues, with relevant information
 - wait (id)\*: block until some processes dies
-- remove (id)+: remove jobs from the queue
-- clear: remove the information about dead jobs (errorlevels, etc.)
+- remove (id)+: remove tasks from the queue
+- clear: remove the information about dead tasks (errorlevels, etc.)

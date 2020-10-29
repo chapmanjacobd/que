@@ -1,5 +1,8 @@
-export interface Book {
-  filename: string;
-  progress: number;
-  finished: boolean;
-}
+export type TaskStatus = "QUEUED" | "RUNNING" | "FAILED" | "COMPLETE";
+
+export type QueueState = "PAUSED" | "RUNNING" | "DONE" | "EMPTY";
+
+export type Task = {
+  taskCmd: string;
+  status: TaskStatus;
+};

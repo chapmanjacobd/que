@@ -1,6 +1,4 @@
-book-status/
-books/
-src/env.ts
+task-status/
 
 # Logs
 logs
