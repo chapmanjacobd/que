@@ -1,6 +1,7 @@
 import shelf from "node-persist";
 import { config } from "./config";
 import { Task } from "./types";
+import sqlite from "better-sqlite3";
 
 const defaultTaskObject = (taskCmd: string): Task => {
   return { taskCmd, status: "QUEUED" };
@@ -15,6 +16,11 @@ export async function addTask(newTaskCmd?: Task): Promise<Task[]> {
   const cart: Task[] = (await shelf.getItem("taskList")) ?? [];
 
   if (!newTaskCmd) return cart;
+
+  const db = sqlite("foobar.db");
+
+  const row = db.prepare(`SELECT * FROM ${} WHERE taskCmd = ${}`).pluck();
+  console.log(row.firstName, row.lastName, row.email);
 
   const taskList =
     atomic && cart.find((known) => newTaskCmd.taskCmd === known.taskCmd)

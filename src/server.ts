@@ -1,7 +1,10 @@
-import { spawn } from "child_process";
+import { exec } from "child_process";
 import { addTask } from "./add-task";
 import { Task } from "./types";
 import { err } from "./utils";
+import Database from "better-sqlite3";
+
+const db = new Database("tasks.db", { verbose: console.log });
 
 if (require.main === module)
   (async () => {
@@ -33,16 +36,26 @@ export async function runTasks(taskList: Task[]) {
   }
 }
 
-async function processTask(queuedTask: Task) {
-  const finishedTask = await spawn(queuedTask.taskCmd, { shell: "" });
+function processTask(queuedTask: Task) {
+  queuedTask.status = "RUNNING";
 
-  queuedTask.out = finishedTask.stdout.read();
-  queuedTask.err = finishedTask.stderr;
-  queuedTask.exit = finishedTask.exitCode;
+  exec(queuedTask.taskCmd, { shell: process.env.SHELL }, (error, stdout, stderr) => {
+    const exitCode = error.code;
 
-  if (finishedTask.exitCode === 0) {
-    queuedTask.status = "COMPLETE";
-  } else {
-    queuedTask.status = "FAILED";
-  }
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.error(`stderr: ${stderr}`);
+
+    if (exitCode === 0) {
+      queuedTask.status = "COMPLETE";
+    } else {
+      queuedTask.status = "FAILED";
+      queuedTask.out = stdout;
+      queuedTask.err = stderr;
+      queuedTask.exit = exitCode;
+    }
+  });
 }
