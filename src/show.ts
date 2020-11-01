@@ -1,28 +1,25 @@
 import { config } from "./config";
-import sqlite from "better-sqlite3";
-import { join } from "path";
+import { init } from "./storage";
 
 if (require.main === module)
   (async () => {
     showTasks();
   })();
 
-export function showTasks(queueName?: string) {
-  const taskTableName = `${queueName ?? config.queueName}_tasks`;
-
-  const db = sqlite(join(__dirname, "..", "db.sqlite"));
+export function showTasks() {
+  const db = init();
 
   const runningTasks = db
-    .prepare(`SELECT rowid, * FROM ${taskTableName} WHERE status = 'RUNNING'`)
+    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'RUNNING'`)
     .all();
   const failedTasks = db
-    .prepare(`SELECT rowid, * FROM ${taskTableName} WHERE status = 'FAILED'`)
+    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'FAILED'`)
     .all();
   const queuedTasks = db
-    .prepare(`SELECT rowid, * FROM ${taskTableName} WHERE status = 'QUEUED'`)
+    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'QUEUED'`)
     .all();
   const completeTasks = db
-    .prepare(`SELECT rowid, * FROM ${taskTableName} WHERE status = 'COMPLETE'`)
+    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'COMPLETE'`)
     .all();
 
   if (process.argv.includes("json"))

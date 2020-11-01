@@ -1,6 +1,5 @@
 import { config } from "./config";
-import sqlite from "better-sqlite3";
-import { join } from "path";
+import { init } from "./storage";
 
 if (require.main === module)
   (async () => {
@@ -8,7 +7,7 @@ if (require.main === module)
   })();
 
 export function togglePause(queueName: string) {
-  const db = sqlite(join(__dirname, "..", "db.sqlite"));
+  const db = init();
 
   const queue = db.prepare(`SELECT * FROM queues WHERE q_name = '${queueName}'`).get();
 

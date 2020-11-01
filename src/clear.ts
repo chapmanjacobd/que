@@ -1,6 +1,5 @@
 import { config } from "./config";
-import sqlite from "better-sqlite3";
-import { join } from "path";
+import { init } from "./storage";
 
 if (require.main === module)
   (async () => {
@@ -8,11 +7,9 @@ if (require.main === module)
   })();
 
 export function clearQueue(queueName?: string) {
-  const taskTableName = `${queueName ?? config.queueName}_tasks`;
+  const db = init();
 
-  const db = sqlite(join(__dirname, "..", "db.sqlite"));
-
-  db.prepare(`DELETE FROM ${taskTableName}`).run();
+  db.prepare(`DELETE FROM ${config.taskTableName}`).run();
 
   return `Cleared queue`;
 }
