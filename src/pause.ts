@@ -1,32 +1,30 @@
-import shelf from "node-persist";
 import { config } from "./config";
-import { Queue } from "./types";
+import sqlite from "better-sqlite3";
+import { join } from "path";
 
-export async function togglePause() {
-  await shelf.init({ dir: config.queueName });
+if (require.main === module)
+  (async () => {
+    console.log(await togglePause(config.queueName));
+  })();
 
-  const cart: Queue = (await shelf.getItem("queue-status")) ?? [];
+export function togglePause(queueName: string) {
+  const db = sqlite(join(__dirname, "..", "db.sqlite"));
 
-  switch (cart.state) {
+  const queue = db.prepare(`SELECT * FROM queues WHERE q_name = '${queueName}'`).get();
+
+  switch (queue.status) {
     case "RUNNING":
-      await shelf.setItem("queue-status", { state: "PAUSED" });
-      console.log("Queue paused");
-      break;
+      db.prepare(`UPDATE queues set status = 'PAUSED' WHERE q_name = '${queueName}'`).run();
+      return "Queue paused";
 
     case "PAUSED":
-      await shelf.setItem("queue-status", { state: "RESUMED" });
-      console.log("Queue resumed");
-      break;
+      db.prepare(`UPDATE queues set status = 'RUNNING' WHERE q_name = '${queueName}'`).run();
+      return "Queue resumed";
 
     default:
       console.error("Queue empty. Cannot pause.");
       break;
   }
 
-  return cart;
+  return queue;
 }
-
-if (require.main === module)
-  (async () => {
-    console.log(await togglePause());
-  })();

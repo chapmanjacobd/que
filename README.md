@@ -1,18 +1,12 @@
-Inspired by [taskspooler](http://freshmeat.net/projects/taskspooler/), and digdag.
+Inspired by [taskspooler](http://freshmeat.net/projects/taskspooler/).
 
 Made for executing independent tasks.
-
-Using node-persist instead of sqlite because I made this while on a plane and npm install doesn't work so don't update tasks concurrently. Hmm yeah I think this isn't going to work well without sqlite :/
 
 ## Tool objectives
 
 - Control what to do with the input/output of thousands of processes
 - Suspend all tasks
 - Restart failed tasks
-
-## Limits
-
-- One queue system per user per system
 
 ## Interface
 
@@ -32,8 +26,7 @@ We should fork a '\$SHELL' and run the task command, because a user may expect t
 ## task management
 
 - Shutdown: stop all the background processes related to the queues.
-- tail (id): 'tail' the last lines of a process' output.
+- cat: cat the output of tasks as they finish
 - list: list the queues, with relevant information
 - wait (id)\*: block until some processes dies
-- remove (id)+: remove tasks from the queue
 - clear: remove the information about dead tasks (errorlevels, etc.)
