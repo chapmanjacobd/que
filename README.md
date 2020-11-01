@@ -15,6 +15,14 @@ ts-node src/show.ts --json
 ts-node src/retry-failed-tasks.ts
 
 ts-node src/clear.ts
+
+To shutdown the server:
+ts-node src/pause.ts
+(then kill the server process: go to the terminal where the server was running and ctrl-c)
+
+To resume (to un-pause the queue):
+Start the server again
+ts-node src/pause.ts
 ```
 
 ## Tool objectives
@@ -29,9 +37,9 @@ The default action `do` should append a task.
 
 ## Task execution
 
-We should fork a '\$SHELL' and run the task command, because a user may expect their shell parser.
+We spawn a '\$SHELL' and run the task command, because a user may expect their shell parser.
 
-## task states
+## Task states
 
 - queued
 - running
@@ -40,8 +48,7 @@ We should fork a '\$SHELL' and run the task command, because a user may expect t
 
 ## task management
 
-- Shutdown: stop all the background processes related to the queues.
 - cat: cat the output of tasks as they finish
 - list: list the queues, with relevant information
 - wait (id)\*: block until some processes dies
-- clear: remove the information about dead tasks (errorlevels, etc.)
+- clear: deletes all tasks from the queue
