@@ -2,6 +2,14 @@ Inspired by [taskspooler](http://freshmeat.net/projects/taskspooler/).
 
 Made for executing independent tasks.
 
+```
+ts-node src/server.ts
+
+ts-node src/add-task.ts "exit 0"
+ts-node src/add-task.ts "exit 1"
+ts-node src/add-task.ts "youtube-dlc \"ytsearch10:Guayaquil city\" -i --no-playlist --write-info-json --write-auto-sub --sub-lang en --skip-download --youtube-skip-dash-manifest -o \"%(playlist_index)s-%(title)s-%(uploader)s-%(id)s\""
+```
+
 ## Tool objectives
 
 - Control what to do with the input/output of thousands of processes
