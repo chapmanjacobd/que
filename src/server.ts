@@ -7,24 +7,31 @@ import { config } from "./config";
 
 if (require.main === module) runTasks();
 
+const db = sqlite(join(__dirname, "..", "db.sqlite"));
+
 export function runTasks() {
   console.log("Task server started");
 
   run();
 
   function run() {
-    const taskList = addTask();
+    if (
+      db.prepare(`SELECT * FROM queues WHERE q_name = '${config.queueName}'`).get().status ==
+      "RUNNING"
+    ) {
+      const taskList = addTask();
 
-    // run n tasks until max concurrent is reached
-    const MAX_CONCURRENT = 4;
-    const nRunningTasks = taskList.filter((t) => t.status === "RUNNING").length;
-    const nTasksToStart = MAX_CONCURRENT - nRunningTasks;
+      // run n tasks until max concurrent is reached
+      const MAX_CONCURRENT = 4;
+      const nRunningTasks = taskList.filter((t) => t.status === "RUNNING").length;
+      const nTasksToStart = MAX_CONCURRENT - nRunningTasks;
 
-    if (nRunningTasks < MAX_CONCURRENT) {
-      const tasksToStart = taskList.filter((t) => t.status === "QUEUED").slice(0, nTasksToStart);
+      if (nRunningTasks < MAX_CONCURRENT) {
+        const tasksToStart = taskList.filter((t) => t.status === "QUEUED").slice(0, nTasksToStart);
 
-      for (const queuedTask of tasksToStart) {
-        processTask(queuedTask);
+        for (const queuedTask of tasksToStart) {
+          processTask(queuedTask);
+        }
       }
     }
 
@@ -33,7 +40,6 @@ export function runTasks() {
 }
 
 function processTask(queuedTask: Task) {
-  const db = sqlite(join(__dirname, "..", "db.sqlite"));
   const taskTableName = `${config.queueName}_tasks`;
 
   db.prepare(

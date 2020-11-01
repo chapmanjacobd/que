@@ -13,7 +13,7 @@ ts-node src/add-task.ts "youtube-dlc \"ytsearch10:Guayaquil city\" -i --no-playl
 ## Tool objectives
 
 - Control what to do with the input/output of thousands of processes
-- Suspend all tasks
+- Pause the queue in relaxed way (RUNNING tasks will finish but no new tasks will run)
 - Restart failed tasks
 
 ## Interface
