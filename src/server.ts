@@ -20,7 +20,7 @@ export function runTasks() {
       const taskList = addTask();
 
       // run n tasks until max concurrent is reached
-      const MAX_CONCURRENT = 4;
+      const MAX_CONCURRENT = config.maxConcurrentmaxConcurrent;
       const nRunningTasks = taskList.filter((t) => t.status === "RUNNING").length;
       const nTasksToStart = MAX_CONCURRENT - nRunningTasks;
 
@@ -33,7 +33,8 @@ export function runTasks() {
       }
     }
 
-    setTimeout(run, 80);
+    const refreshRate = 800;
+    setTimeout(run, refreshRate);
   }
 }
 

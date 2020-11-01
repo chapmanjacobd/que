@@ -6,4 +6,5 @@ export const config = {
   queueName,
   addTaskCmd: argv["_"],
   taskTableName: `${queueName}_tasks`,
+  maxConcurrent: 6,
 };
