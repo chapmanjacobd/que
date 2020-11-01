@@ -17,7 +17,8 @@ export function restartFailedTasks({
 
   const N_failedTasks = db
     .prepare(`SELECT count(*) FROM ${taskTableName} WHERE status = 'FAILED'`)
-    .pluck();
+    .pluck()
+    .get();
 
   if (appendCmd)
     db.prepare(
@@ -26,5 +27,5 @@ export function restartFailedTasks({
 
   db.prepare(`UPDATE ${taskTableName} set status = 'QUEUED' WHERE status = 'FAILED'`).run();
 
-  return `Retrying ${N_failedTasks} tasks`;
+  return `Retrying ${N_failedTasks} ${N_failedTasks == 1 ? "task" : "tasks"}`;
 }

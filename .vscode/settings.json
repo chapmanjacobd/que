@@ -9,6 +9,7 @@
     ],
     "sqltools.useNodeRuntime": true,
     "cSpell.words": [
+        "hellip",
         "rowid"
     ]
 }
