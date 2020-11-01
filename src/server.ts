@@ -20,11 +20,10 @@ export function runTasks() {
       const taskList = addTask();
 
       // run n tasks until max concurrent is reached
-      const MAX_CONCURRENT = config.maxConcurrent;
       const nRunningTasks = taskList.filter((t) => t.status === "RUNNING").length;
-      const nTasksToStart = MAX_CONCURRENT - nRunningTasks;
+      const nTasksToStart = config.maxConcurrent - nRunningTasks;
 
-      if (nRunningTasks < MAX_CONCURRENT) {
+      if (nRunningTasks < config.maxConcurrent) {
         const tasksToStart = taskList.filter((t) => t.status === "QUEUED").slice(0, nTasksToStart);
 
         for (const queuedTask of tasksToStart) {
