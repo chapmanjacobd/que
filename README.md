@@ -9,33 +9,39 @@ git clone https://github.com/chapmanjacobd/que
 pnpm run start
 abbr que /home/xk/jsprojects/que/dist/que.js
 
-# start the que server (it will be in charge of spawning all the tasks)
+## start the que server (it will be in charge of spawning all the tasks)
+
 que
+
+## add some tasks
 
 que exit 0
 que touch hello_world
+que exit 1
 
+## show contents of the queue
 
+que show
+que show json
 
+## retry failed tasks
 
+que retry
 
-ts-node src/add-task.ts "exit 1"
-ts-node src/add-task.ts "youtube-dlc \"ytsearch10:Guayaquil city\" -i --no-playlist --write-info-json --write-auto-sub --sub-lang en --skip-download --youtube-skip-dash-manifest -o \"%(playlist_index)s-%(title)s-%(uploader)s-%(id)s\""
+## delete everything
 
-ts-node src/show.ts
-ts-node src/show.ts --json
+que clear
 
-ts-node src/retry-failed-tasks.ts
+## shutdown the server
+que pause
+que kill-task-server
 
-ts-node src/clear.ts
+## resume / un-pause the queue
+que
+que pause
 
-To shutdown the server:
-ts-node src/pause.ts
-(then kill the server process: go to the terminal where the server was running and ctrl-c)
+que youtube-dlc "ytsearch10:Guayaquil city" -i --no-playlist --write-info-json --write-auto-sub --sub-lang en --skip-download --youtube-skip-dash-manifest -o "%(playlist_index)s-%(title)s-%(uploader)s-%(id)s"
 
-To resume (to un-pause the queue):
-Start the server again
-ts-node src/pause.ts
 ```
 
 ## Tool objectives
