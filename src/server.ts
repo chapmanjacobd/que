@@ -10,6 +10,14 @@ export function runTasks() {
   const db = init();
   console.log("Task server started");
 
+  process.on("SIGTERM", () => {
+    console.info("SIGTERM signal received. Shutting down after a minute.");
+    refreshRate = 2147483640;
+    setTimeout(() => {
+      process.exit(0);
+    }, 2 * 60000);
+  });
+
   let refreshRate = 800;
   run();
 
@@ -35,14 +43,6 @@ export function runTasks() {
     // https://www.sqlite.org/c3ref/update_hook.html
     setTimeout(run, refreshRate);
   }
-
-  process.on("SIGTERM", () => {
-    console.info("SIGTERM signal received. Shutting down after a minute.");
-    refreshRate = 2147483640;
-    setTimeout(() => {
-      process.exit(0);
-    }, 2 * 60000);
-  });
 }
 
 function processTask(queuedTask: Task) {

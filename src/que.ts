@@ -64,11 +64,11 @@ $ que show json
       if (!(await serverRunning())) startTaskServer();
       console.log("Que server started");
       if (firstArg) addTask();
-      break;
+      return;
   }
 
   if (!(await serverRunning()))
-    console.log("Server is not currently running. Run `que` to start the server.");
+    console.log("Que server is not running. Run `que` or add a task to start the server.");
 })();
 
 async function serverRunning(): Promise<number> {
