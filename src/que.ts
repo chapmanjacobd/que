@@ -21,14 +21,11 @@ $ que touch file
 
 -----------------------------------------------------------
 
-$ que --queue=test touch file // specifying the queue explicitly will not automatically start the server
 $ que pause
 $ que retry
 $ que clear
 $ que show
 $ que show --json
-
-- if serverNotRunning console.log('Server is not currently running. Run `que` to start the server.')
 
 -----------------------------------------------------------
 */
@@ -64,6 +61,9 @@ $ que show --json
       if (firstArg) addTask();
       break;
   }
+
+  if (!(await serverRunning()))
+    console.log("Server is not currently running. Run `que` to start the server.");
 })();
 
 async function serverRunning(): Promise<number> {
