@@ -1,6 +1,6 @@
 var argv = require("minimist")(process.argv.slice(2));
 
-const queueName = argv["queue"] ?? "default_queue";
+const queueName = argv["queue"] ?? "default";
 
 export const config = {
   queueName,

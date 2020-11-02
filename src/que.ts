@@ -25,7 +25,7 @@ $ que pause
 $ que retry
 $ que clear
 $ que show
-$ que show --json
+$ que show json
 
 -----------------------------------------------------------
 */
@@ -33,6 +33,7 @@ $ que show --json
 (async () => {
   // get args from minimist so we can not worry about `--queue`
   const firstArg = config.addTaskCmd.split(" ")[0];
+  console.log(`Using ${config.queueName} queue`);
 
   switch (firstArg) {
     case "pause":
@@ -44,6 +45,10 @@ $ que show --json
       break;
 
     case "clear":
+      clearQueue();
+      break;
+
+    case "empty":
       clearQueue();
       break;
 
