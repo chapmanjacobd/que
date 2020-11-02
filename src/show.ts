@@ -47,7 +47,7 @@ function truncateTask(t: any): any {
   };
 }
 
-function truncate(str, n = 20, useWordBoundary = false) {
+function truncate(str: string, n = 20, useWordBoundary = false) {
   if (str.length <= n) {
     return str;
   }

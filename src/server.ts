@@ -1,8 +1,6 @@
 import { exec } from "child_process";
 import { addTask } from "./add-task";
 import { Task } from "./types";
-import sqlite from "better-sqlite3";
-import { join } from "path";
 import { config } from "./config";
 import { init } from "./storage";
 

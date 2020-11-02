@@ -6,7 +6,7 @@ if (require.main === module)
     console.log(clearQueue());
   })();
 
-export function clearQueue(queueName?: string) {
+export function clearQueue() {
   const db = init();
 
   db.prepare(`DELETE FROM ${config.taskTableName}`).run();

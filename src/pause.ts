@@ -3,21 +3,21 @@ import { init } from "./storage";
 
 if (require.main === module)
   (async () => {
-    console.log(await togglePause(config.queueName));
+    console.log(togglePause());
   })();
 
-export function togglePause(queueName: string) {
+export function togglePause() {
   const db = init();
 
-  const queue = db.prepare(`SELECT * FROM queues WHERE q_name = '${queueName}'`).get();
+  const queue = db.prepare(`SELECT * FROM queues WHERE q_name = '${config.queueName}'`).get();
 
   switch (queue.status) {
     case "RUNNING":
-      db.prepare(`UPDATE queues set status = 'PAUSED' WHERE q_name = '${queueName}'`).run();
+      db.prepare(`UPDATE queues set status = 'PAUSED' WHERE q_name = '${config.queueName}'`).run();
       return "Queue paused";
 
     case "PAUSED":
-      db.prepare(`UPDATE queues set status = 'RUNNING' WHERE q_name = '${queueName}'`).run();
+      db.prepare(`UPDATE queues set status = 'RUNNING' WHERE q_name = '${config.queueName}'`).run();
       return "Queue resumed";
 
     default:

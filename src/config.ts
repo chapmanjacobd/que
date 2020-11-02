@@ -4,7 +4,7 @@ const queueName = argv["queue"] ?? "default_queue";
 
 export const config = {
   queueName,
-  addTaskCmd: argv["_"],
+  addTaskCmd: argv["_"].join(" "),
   taskTableName: `${queueName}_tasks`,
   maxConcurrent: 6,
 };

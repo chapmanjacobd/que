@@ -4,17 +4,19 @@ import { init } from "./storage";
 
 if (require.main === module)
   (async () => {
-    console.log(addTask(config.addTaskCmd));
+    console.log(addTask());
   })();
 
-export function addTask(newTaskCmd?: string): Task[] {
+export function addTask(): Task[] {
   const db = init();
 
-  if (newTaskCmd)
+  console.log("Adding task:", config.addTaskCmd);
+
+  if (config.addTaskCmd && config.addTaskCmd !== "")
     db.prepare(
       `INSERT INTO ${config.taskTableName} (task_cmd, status) VALUES (@task_cmd, @status)`
     ).run({
-      task_cmd: newTaskCmd,
+      task_cmd: config.addTaskCmd,
       status: "QUEUED",
     });
 
