@@ -1,4 +1,4 @@
-# do
+# que
 
 Inspired by [taskspooler](http://freshmeat.net/projects/taskspooler/).
 
@@ -29,13 +29,13 @@ ts-node src/pause.ts
 
 ## Tool objectives
 
-- Control what to do with the input/output of thousands of processes
+- Control what to que with the input/output of thousands of processes
 - Pause the queue in relaxed way (RUNNING tasks will finish but no new tasks will run)
 - Restart failed tasks
 
 ## Interface
 
-The default action `do` should append a task.
+The default action `que` should append a task.
 
 ## Task execution
 

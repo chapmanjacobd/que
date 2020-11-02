@@ -1,15 +1,12 @@
 {
-    "sqltools.connections": [
-        {
-            "previewLimit": 50,
-            "driver": "SQLite",
-            "database": "${workspaceFolder:do}/db.sqlite",
-            "name": "do tasks"
-        }
-    ],
-    "sqltools.useNodeRuntime": true,
-    "cSpell.words": [
-        "hellip",
-        "rowid"
-    ]
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "${workspaceFolder:do}/db.sqlite",
+      "name": "que tasks"
+    }
+  ],
+  "sqltools.useNodeRuntime": true,
+  "cSpell.words": ["hellip", "rowid"]
 }
