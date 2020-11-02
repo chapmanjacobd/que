@@ -76,7 +76,7 @@ $ que show json
 async function serverRunning(): Promise<number> {
   const processes = await psList();
   const [server] = processes.filter(
-    (x) => x.name === "node" && x.cmd.includes("que/dist/server.js")
+    (x) => x.name === "node" && x.cmd.includes("que/src/server.ts")
   );
 
   return server?.pid;
@@ -88,15 +88,11 @@ function killTaskServer(pid: number) {
 }
 
 function startTaskServer() {
-  const body = fs.readFileSync(path.join(__dirname, "/server.js"));
-  const realFileName = path.dirname(process.execPath) + "/server.js";
-  fs.writeFileSync(realFileName, body);
-
-  const server = spawn("node", [realFileName], {
+  const server = spawn(`ts-node ${__dirname}/server.ts`, {
     detached: true,
+    shell: process.env.SHELL,
     stdio: ["ignore" /* stdin */, "ignore" /* stdout */, "ignore" /* stderr */],
   });
-  console.log(server);
 
   server.unref();
 }
