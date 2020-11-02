@@ -1,5 +1,6 @@
 {
-  "main": "src/que.ts",
+  "name": "que",
+  "bin": "dist/que.js",
   "dependencies": {
     "@types/better-sqlite3": "^5.4.1",
     "@types/glob": "^7.1.3",
@@ -16,5 +17,8 @@
   },
   "devDependencies": {
     "typescript": "^3.9.7"
+  },
+  "pkg": {
+    "scripts": "dist/*.js"
   }
 }

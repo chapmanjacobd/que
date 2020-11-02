@@ -1,6 +1,4 @@
 import { config } from "./config";
-import sqlite from "better-sqlite3";
-import { join } from "path";
 import { init } from "./storage";
 
 if (require.main === module)

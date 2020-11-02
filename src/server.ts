@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { exec } from "child_process";
 import { addTask } from "./add-task";
 import { Task } from "./types";
