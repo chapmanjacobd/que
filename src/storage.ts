@@ -34,6 +34,7 @@ function makeSureTablesExist(db: sqlite.Database) {
     `CREATE TABLE IF NOT EXISTS ${config.taskTableName} (
       task_cmd TEXT NOT NULL,
       status TEXT NOT NULL,
+      wd TEXT NOT NULL,
       exit_code INTEGER,
       stdout TEXT,
       stderr TEXT

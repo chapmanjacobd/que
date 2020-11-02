@@ -4,10 +4,21 @@ Inspired by [taskspooler](http://freshmeat.net/projects/taskspooler/).
 
 Made for executing independent tasks.
 
-```
-ts-node src/server.ts
+```fish
+git clone https://github.com/chapmanjacobd/que
+pnpm run start
+abbr que /home/xk/jsprojects/que/dist/que.js
 
-ts-node src/add-task.ts "exit 0"
+# start the que server (it will be in charge of spawning all the tasks)
+que
+
+que exit 0
+que touch hello_world
+
+
+
+
+
 ts-node src/add-task.ts "exit 1"
 ts-node src/add-task.ts "youtube-dlc \"ytsearch10:Guayaquil city\" -i --no-playlist --write-info-json --write-auto-sub --sub-lang en --skip-download --youtube-skip-dash-manifest -o \"%(playlist_index)s-%(title)s-%(uploader)s-%(id)s\""
 

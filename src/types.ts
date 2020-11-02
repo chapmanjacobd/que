@@ -5,6 +5,7 @@ export type QueueState = "PAUSED" | "RUNNING" | "DONE" | "EMPTY";
 export type Task = {
   task_cmd: string;
   status: TaskStatus;
+  wd: string;
   rowid: number;
   exit_code: number;
   stdout: string;

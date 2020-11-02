@@ -14,10 +14,11 @@ export function addTask(): Task[] {
     console.log("Adding task:", config.addTaskCmd);
 
     db.prepare(
-      `INSERT INTO ${config.taskTableName} (task_cmd, status) VALUES (@task_cmd, @status)`
+      `INSERT INTO ${config.taskTableName} (task_cmd, status, wd) VALUES (@task_cmd, @status, @wd)`
     ).run({
       task_cmd: config.addTaskCmd,
       status: "QUEUED",
+      wd: process.cwd(),
     });
   }
 

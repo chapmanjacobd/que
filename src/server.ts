@@ -11,13 +11,13 @@ export function runTasks() {
   const db = init();
   console.log("Task server started");
 
-  process.on("SIGTERM", () => {
-    console.info("SIGTERM signal received. Shutting down after a minute.");
-    refreshRate = 2147483640;
-    setTimeout(() => {
-      process.exit(0);
-    }, 2 * 60000);
-  });
+  // process.on("SIGTERM", () => {
+  //   console.info("SIGTERM signal received. Shutting down after a minute.");
+  //   refreshRate = 2147483640;
+  //   setTimeout(() => {
+  //     process.exit(0);
+  //   }, 2 * 60000);
+  // });
 
   let refreshRate = 800;
   run();
@@ -53,27 +53,31 @@ function processTask(queuedTask: Task) {
     `UPDATE ${config.taskTableName} set status = 'RUNNING' WHERE rowid = ${queuedTask.rowid}`
   ).run();
 
-  exec(queuedTask.task_cmd, { shell: process.env.SHELL }, (error, stdout, stderr) => {
-    console.log(`Task ${error ? "completed" : "failed"}: `, queuedTask.task_cmd);
-    console.group();
-    console.log(stderr);
-    if (process.env.VERBOSE) console.log(stdout);
-    console.groupEnd();
+  exec(
+    queuedTask.task_cmd,
+    { shell: process.env.SHELL, cwd: queuedTask.wd },
+    (error, stdout, stderr) => {
+      console.log(`Task ${error ? "completed" : "failed"}: `, queuedTask.task_cmd);
+      console.group();
+      console.log(stderr);
+      if (process.env.VERBOSE) console.log(stdout);
+      console.groupEnd();
 
-    const exit_code = error ? error.code : 0;
+      const exit_code = error ? error.code : 0;
 
-    db.prepare(
-      `UPDATE ${config.taskTableName} set
+      db.prepare(
+        `UPDATE ${config.taskTableName} set
         stdout = @stdout,
         stderr = @stderr,
         exit_code = @exit_code,
         status = @status
       WHERE rowid = ${queuedTask.rowid}`
-    ).run({
-      stdout,
-      stderr,
-      exit_code,
-      status: exit_code === 0 ? "COMPLETE" : "FAILED",
-    });
-  });
+      ).run({
+        stdout,
+        stderr,
+        exit_code,
+        status: exit_code === 0 ? "COMPLETE" : "FAILED",
+      });
+    }
+  );
 }

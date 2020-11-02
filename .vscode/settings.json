@@ -5,6 +5,12 @@
       "driver": "SQLite",
       "database": "${workspaceFolder:do}/db.sqlite",
       "name": "que tasks"
+    },
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "que",
+      "database": "${workspaceFolder:que}/db.sqlite"
     }
   ],
   "sqltools.useNodeRuntime": true,
