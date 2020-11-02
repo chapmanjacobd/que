@@ -8,6 +8,7 @@ dependencies:
   jest: 26.6.1
   leven-sort: 3.0.0
   minimist: 1.2.5
+  ps-list: 7.2.0
   sbd: 1.0.18
   ts-jest: 26.4.3_jest@26.6.1+typescript@3.9.7
 devDependencies:
@@ -3255,6 +3256,12 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-awZAKrk3vN6CroQukBL+R9051a4R3zCZBlJm/HBfrSZ8iTpYix3VX1vU4mveiLpiwmOJT4wokTF9m6HUk4KqWQ==
+  /ps-list/7.2.0:
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-v4Bl6I3f2kJfr5o80ShABNHAokIgY+wFDTQfE+X3zWYgSGQOCBeYptLZUpoOALBqO5EawmDN/tjTldJesd0ujQ==
   /psl/1.8.0:
     dev: false
     resolution:
@@ -4355,6 +4362,7 @@ specifiers:
   jest: ^26.4.0
   leven-sort: ^3.0.0
   minimist: ^1.2.5
+  ps-list: ^7.2.0
   sbd: ^1.0.18
   ts-jest: ^26.2.0
   typescript: ^3.9.7

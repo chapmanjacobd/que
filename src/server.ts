@@ -10,6 +10,7 @@ export function runTasks() {
   const db = init();
   console.log("Task server started");
 
+  let refreshRate = 800;
   run();
 
   function run() {
@@ -30,9 +31,18 @@ export function runTasks() {
       }
     }
 
-    const refreshRate = 800;
+    // might want to look into this:
+    // https://www.sqlite.org/c3ref/update_hook.html
     setTimeout(run, refreshRate);
   }
+
+  process.on("SIGTERM", () => {
+    console.info("SIGTERM signal received. Shutting down after a minute.");
+    refreshRate = 2147483640;
+    setTimeout(() => {
+      process.exit(0);
+    }, 2 * 60000);
+  });
 }
 
 function processTask(queuedTask: Task) {
