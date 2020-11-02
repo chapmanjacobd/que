@@ -1,5 +1,8 @@
 {
   "name": "que",
+  "scripts": {
+    "start": "tsc && node ./dist/que.js"
+  },
   "bin": "dist/que.js",
   "dependencies": {
     "@types/better-sqlite3": "^5.4.1",

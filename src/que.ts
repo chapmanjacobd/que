@@ -76,7 +76,7 @@ $ que show json
 async function serverRunning(): Promise<number> {
   const processes = await psList();
   const [server] = processes.filter(
-    (x) => x.name === "node" && x.cmd.includes("que/src/server.ts")
+    (x) => x.name === "node" && x.cmd.includes("que/dist/server.js")
   );
 
   return server?.pid;
@@ -88,7 +88,7 @@ function killTaskServer(pid: number) {
 }
 
 function startTaskServer() {
-  const server = spawn(`ts-node ${__dirname}/server.ts`, {
+  const server = spawn(`node ${__dirname}/server.js`, {
     detached: true,
     shell: process.env.SHELL,
     stdio: ["ignore" /* stdin */, "ignore" /* stdout */, "ignore" /* stderr */],
