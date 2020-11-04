@@ -10,7 +10,7 @@ if (require.main === module)
 export function addTask(): Task[] {
   const db = init();
 
-  if (config.addTaskCmd && config.addTaskCmd !== "") {
+  if (config.addTaskCmd && config.addTaskCmd.length > 0) {
     console.log("Adding task:", config.addTaskCmd);
 
     db.prepare(
