@@ -7,9 +7,11 @@ import { init } from "./storage";
 
 if (require.main === module) runTasks();
 
-export function runTasks() {
+export async function runTasks() {
   const db = init();
   console.log("Task server started");
+
+  db.prepare(`UPDATE ${config.taskTableName} set status = 'QUEUED' WHERE status = 'RUNNING'`).run();
 
   // process.on("SIGTERM", () => {
   //   console.info("SIGTERM signal received. Shutting down after a minute.");
@@ -20,35 +22,35 @@ export function runTasks() {
   // });
 
   let refreshRate = 800;
-  run();
+  await run();
 
-  function run() {
-    const q = db.prepare(`SELECT * FROM queues WHERE q_name = '${config.queueName}'`).get();
-    if (q.status == "RUNNING") {
-      const taskList = addTask();
+  async function run() {
+    while (true) {
+      await new Promise((r) => setTimeout(r, refreshRate));
 
-      // run n tasks until max concurrent is reached
-      const nRunningTasks = taskList.filter((t) => t.status === "RUNNING").length;
-      const nTasksToStart = config.maxConcurrent - nRunningTasks;
+      const q = db.prepare(`SELECT * FROM queues WHERE q_name = '${config.queueName}'`).get();
+      if (q.status == "RUNNING") {
+        const taskList = addTask();
 
-      if (nRunningTasks < config.maxConcurrent) {
-        const tasksToStart = taskList.filter((t) => t.status === "QUEUED").slice(0, nTasksToStart);
+        // run n tasks until max concurrent is reached
+        const nRunningTasks = taskList.filter((t) => t.status === "RUNNING").length;
+        const nTasksToStart = config.maxConcurrent - nRunningTasks;
 
-        for (const queuedTask of tasksToStart) {
-          processTask(queuedTask);
+        if (nRunningTasks < config.maxConcurrent) {
+          const tasksToStart = taskList
+            .filter((t) => t.status === "QUEUED")
+            .slice(0, nTasksToStart);
+
+          for (const queuedTask of tasksToStart) {
+            processTask(db, queuedTask);
+          }
         }
       }
     }
-
-    // might want to look into this:
-    // https://www.sqlite.org/c3ref/update_hook.html
-    setTimeout(run, refreshRate);
   }
 }
 
-function processTask(queuedTask: Task) {
-  const db = init();
-
+function processTask(db, queuedTask: Task) {
   db.prepare(
     `UPDATE ${config.taskTableName} set status = 'RUNNING' WHERE rowid = ${queuedTask.rowid}`
   ).run();
