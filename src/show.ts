@@ -51,10 +51,21 @@ function truncateTask(t: any): any {
   };
 }
 
-function truncate(str: string, n = 70, rightAlign = true) {
+function truncate(str: string, n = 120, align = "MIDDLE") {
   if (!str) return str;
   if (str.length <= n) {
     return str;
   }
-  return rightAlign ? "…" + str.substr(1 - n) : str.substr(0, n - 1) + "…";
+  const middleN = Math.floor(n / 2);
+
+  switch (align) {
+    case "MIDDLE":
+      return str.substr(0, middleN - 1) + "…" + str.substr(1 - middleN);
+
+    case "LEFT":
+      return str.substr(0, n - 1) + "…";
+
+    default:
+      return "…" + str.substr(1 - n);
+  }
 }
