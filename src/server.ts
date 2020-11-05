@@ -55,7 +55,7 @@ function processTask(queuedTask: Task) {
 
   exec(
     queuedTask.task_cmd,
-    { shell: process.env.SHELL, cwd: queuedTask.wd },
+    { shell: process.env.SHELL, cwd: queuedTask.wd, maxBuffer: 1024 * 2000 },
     (error, stdout, stderr) => {
       console.log(`Task ${error ? "completed" : "failed"}: `, queuedTask.task_cmd);
       console.group();
