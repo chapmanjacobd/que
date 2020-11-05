@@ -26,16 +26,16 @@ export function showTasks() {
     .all();
 
   if (process.argv.includes("json"))
-    return console.log({ runningTasks, failedTasks, queuedTasks, completeTasks });
+    return console.log({ queuedTasks, runningTasks, failedTasks, completeTasks });
+
+  console.log("Queued Tasks:");
+  console.table(queuedTasks.map((t) => truncateTask(t)));
 
   console.log("Running Tasks:");
   console.table(runningTasks.map((t) => truncateTask(t)));
 
   console.log("Failed Tasks:");
   console.table(failedTasks.map((t) => truncateTask(t)));
-
-  console.log("Queued Tasks:");
-  console.table(queuedTasks.map((t) => truncateTask(t)));
 
   console.log("Complete Tasks:");
   console.table(completeTasks.map((t) => truncateTask(t)));
