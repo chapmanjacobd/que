@@ -9,6 +9,12 @@ if (require.main === module)
 export function restartFailedTasks(appendCmd?: string) {
   const db = init();
 
+  const rowid = process.argv[3];
+  if (process.argv[3]) {
+    db.prepare(`UPDATE ${config.taskTableName} set status = 'QUEUED' WHERE rowid = ${rowid}`).run();
+    return `Retrying ${rowid}`;
+  }
+
   const N_failedTasks = db
     .prepare(`SELECT count(*) FROM ${config.taskTableName} WHERE status = 'FAILED'`)
     .pluck()

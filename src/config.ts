@@ -1,10 +1,17 @@
-var argv = require("minimist")(process.argv.slice(2));
+var minimist = require("minimist")(process.argv.slice(2));
 
-const queueName = argv["queue"] ?? process.env.QUEUE_NAME ?? "default";
+var argv = process.argv
+  .slice(2)
+  .map(function (arg) {
+    return arg.replace(/'/g, `"`);
+  })
+  .join(" ");
+
+const queueName = minimist["queue"] ?? process.env.QUEUE_NAME ?? "default";
 
 export const config = {
   queueName,
-  addTaskCmd: process.argv.slice(2),
+  addTaskCmd: argv,
   taskTableName: `${queueName}_tasks`,
   maxConcurrent: Number(process.env.MAX_CONCURRENT ?? 4),
 };

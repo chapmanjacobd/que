@@ -9,7 +9,10 @@ if (require.main === module)
 export function clearQueue() {
   const db = init();
 
-  db.prepare(`DELETE FROM ${config.taskTableName}`).run();
+  const status = process.argv[3];
+  const condStatus = status ? `where status = '${status}'` : "";
+
+  db.prepare(`DELETE FROM ${config.taskTableName} ${condStatus}`).run();
 
   return `Cleared queue`;
 }

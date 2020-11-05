@@ -14,5 +14,9 @@
     }
   ],
   "sqltools.useNodeRuntime": true,
-  "cSpell.words": ["hellip", "rowid"]
+  "cSpell.words": [
+    "cond",
+    "hellip",
+    "rowid"
+  ]
 }

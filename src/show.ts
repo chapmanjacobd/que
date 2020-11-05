@@ -9,17 +9,20 @@ if (require.main === module)
 export function showTasks() {
   const db = init();
 
+  const rowid = process.argv[4];
+  const condRowId = rowid ? "and rowid = " + rowid : "";
+
   const runningTasks = db
-    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'RUNNING'`)
+    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'RUNNING' ${condRowId}`)
     .all();
   const failedTasks = db
-    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'FAILED'`)
+    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'FAILED' ${condRowId}`)
     .all();
   const queuedTasks = db
-    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'QUEUED'`)
+    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'QUEUED' ${condRowId}`)
     .all();
   const completeTasks = db
-    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'COMPLETE'`)
+    .prepare(`SELECT rowid, * FROM ${config.taskTableName} WHERE status = 'COMPLETE' ${condRowId}`)
     .all();
 
   if (process.argv.includes("json"))
@@ -40,17 +43,18 @@ export function showTasks() {
 
 function truncateTask(t: any): any {
   return {
-    ...t,
+    rowid: t.rowid,
     task_cmd: truncate(t.task_cmd),
-    stderr: truncate(t.stderr),
-    stdout: truncate(t.stdout),
+    exit_code: t.exit_code,
+    stderr: t.stderr?.split("\n").length,
+    stdout: t.stdout?.split("\n").length,
   };
 }
 
-function truncate(str: string, n = 20, useWordBoundary = false) {
+function truncate(str: string, n = 70, rightAlign = true) {
+  if (!str) return str;
   if (str.length <= n) {
     return str;
   }
-  const subString = str.substr(0, n - 1);
-  return (useWordBoundary ? subString.substr(0, subString.lastIndexOf(" ")) : subString) + "…";
+  return rightAlign ? "…" + str.substr(1 - n) : str.substr(0, n - 1) + "…";
 }
