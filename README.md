@@ -2,6 +2,8 @@
 
 Inspired by [taskspooler](http://freshmeat.net/projects/taskspooler/).
 
+![que screenshot](https://i.imgur.com/S7xKMhj.png)
+
 Made for executing independent tasks.
 
 ```fish
@@ -22,6 +24,7 @@ que exit 1
 ## show contents of the queue
 
 que show
+watch que show
 que show json
 que show json 24 <-- only show specific task based on rowid
 
