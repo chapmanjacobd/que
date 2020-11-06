@@ -28,16 +28,20 @@ export function showTasks() {
   if (process.argv.includes("json"))
     return console.log({ queuedTasks, runningTasks, failedTasks, completeTasks });
 
+  console.log(`Preview (only showing five of each)
+Use \`que show json\` to show the full list or query the sqlite.db directly.`);
+
   console.log("Queued Tasks:", queuedTasks.length);
+  console.table(queuedTasks.map((t) => truncateTask(t)).slice(-5));
 
-  console.log("Running Tasks:");
-  console.table(runningTasks.map((t) => truncateTask(t)));
+  console.log("Running Tasks:", runningTasks.length);
+  console.table(runningTasks.map((t) => truncateTask(t)).slice(-5));
 
-  console.log("Failed Tasks:");
-  console.table(failedTasks.map((t) => truncateTask(t)));
+  console.log("Failed Tasks:", failedTasks.length);
+  console.table(failedTasks.map((t) => truncateTask(t)).slice(-5));
 
-  console.log("Complete Tasks:");
-  console.table(completeTasks.map((t) => truncateTask(t)));
+  console.log("Complete Tasks:", completeTasks.length);
+  console.table(completeTasks.map((t) => truncateTask(t)).slice(-5));
 }
 
 function truncateTask(t: any): any {
