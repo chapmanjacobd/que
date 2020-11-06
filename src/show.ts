@@ -28,8 +28,7 @@ export function showTasks() {
   if (process.argv.includes("json"))
     return console.log({ queuedTasks, runningTasks, failedTasks, completeTasks });
 
-  // console.log("Queued Tasks:");
-  // console.table(queuedTasks.map((t) => truncateTask(t)));
+  console.log("Queued Tasks:", queuedTasks.length);
 
   console.log("Running Tasks:");
   console.table(runningTasks.map((t) => truncateTask(t)));
