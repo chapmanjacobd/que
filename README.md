@@ -8,6 +8,7 @@ Made for executing independent tasks.
 
 ```fish
 git clone https://github.com/chapmanjacobd/que
+pnpm install
 pnpm run start
 abbr que /home/xk/jsprojects/que/dist/que.js
 
