@@ -23,14 +23,21 @@ que exit 1
 
 que show
 que show json
+que show json 24 <-- only show specific task based on rowid
 
 ## retry failed tasks
 
 que retry
+que retry 24 <-- only retry specific task
 
 ## delete everything
 
 que clear
+
+## flush a status of the queue (deletes all the tasks which have the status)
+
+que clear COMPLETED
+que clear RUNNING
 
 ## shutdown the server
 que pause
@@ -64,10 +71,3 @@ We spawn a '\$SHELL' and run the task command, because a user may expect their s
 - running
 - failed
 - complete
-
-## task management
-
-- cat: cat the output of tasks as they finish
-- list: list the queues, with relevant information
-- wait (id)\*: block until some processes dies
-- clear: deletes all tasks from the queue
