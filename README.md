@@ -1,5 +1,7 @@
 # que
 
+depreciated: I recommend using GNU Parallel instead. It probably will meet your needs
+
 Inspired by [taskspooler](http://freshmeat.net/projects/taskspooler/).
 
 ![que screenshot](https://i.imgur.com/S7xKMhj.png)
